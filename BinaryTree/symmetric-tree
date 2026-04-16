@@ -1,0 +1,89 @@
+# 🌳 Symmetric Tree
+
+> A tree is symmetric if its left and right subtrees are mirror images of each other.
+
+---
+
+## 🧠 Concept
+
+This problem is based on **recursion + mirror comparison**.
+
+Instead of checking one tree, we compare:
+
+* Left subtree of one side
+* Right subtree of the other side
+
+👉 Basically: **mirror check (left ↔ right)**
+
+---
+
+## ⚙️ Approach
+
+👉 If both nodes are null → return true
+👉 If one is null → return false
+👉 If values are different → return false
+
+👉 Recursively check:
+
+* left of first with right of second
+* right of first with left of second
+
+👉 Start by comparing:
+
+* root.left with root.right
+
+---
+
+## 💻 Code (Java)
+
+```java id="sym123"
+class Solution {
+
+    public static boolean symmetric(TreeNode n1, TreeNode n2)
+    {
+        if(n1 == null && n2 == null)
+        {
+            return true;
+        }
+        else if(n1 == null || n2 == null)
+        {
+            return false;
+        }
+        else if(n1.val != n2.val)
+        {
+            return false;
+        }
+
+        return symmetric(n1.left, n2.right) && symmetric(n1.right, n2.left);
+    }
+
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)
+        {
+            return true;
+        }
+        return symmetric(root.left, root.right);
+    }
+}
+```
+
+---
+
+## ⏱️ Complexity
+
+* Time: O(n) → visit each node once
+* Space: O(h) → recursion stack
+
+---
+
+## ❗ Mistakes / Learnings
+
+* Don’t compare left with left → compare **left with right**
+* Structure AND values must match
+* Base case handling is very important
+
+---
+
+## 🔑 Key Insight
+
+👉 Symmetry = **mirror comparison**, not normal traversal
