@@ -1,0 +1,64 @@
+# 🌳 Sum Root to Leaf Numbers
+
+---
+
+## 📌 Problem Statement
+Given a binary tree where each node contains a digit (0–9), each root-to-leaf path forms a number.
+
+👉 Return the total sum of all root-to-leaf numbers.
+
+---
+
+## 🧠 Core Idea
+
+### 🔑 Key Insight
+As we move from root → leaf:
+- Build number step by step
+- Use: `num = num * 10 + node.val`
+- At leaf node, add formed number to total sum
+
+---
+
+## ⚙️ Approach
+
+### Step-by-step flow
+1. Start from root with `num = 0`
+2. At each node:
+   - Update current number
+3. If leaf node:
+   - Add number to `finalSum`
+4. Recurse left and right
+5. Return final result
+
+---
+
+## 💻 Code (Clean Version of Your Logic)
+
+```java
+class Solution {
+
+    int finalSum = 0;
+
+    public int sum(TreeNode root, int num) {
+        if (root == null) return 0;
+
+        // build current number
+        num = num * 10 + root.val;
+
+        // leaf node condition
+        if (root.left == null && root.right == null) {
+            finalSum += num;
+            return finalSum;
+        }
+
+        // traverse children
+        sum(root.left, num);
+        sum(root.right, num);
+
+        return finalSum;
+    }
+
+    public int sumNumbers(TreeNode root) {
+        return sum(root, 0);
+    }
+}
