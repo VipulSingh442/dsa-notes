@@ -1,0 +1,84 @@
+# 🌳 Construct Binary Tree from Inorder & Postorder Traversal
+
+---
+
+## 📌 Problem Statement
+Given:
+- Inorder → Left → Root → Right
+- Postorder → Left → Right → Root
+
+Construct the original binary tree.
+
+---
+
+## 🧠 Core Idea
+
+### 🔑 Key Observations
+- Last element in postorder is always the root
+- In inorder traversal, root divides:
+  - Left subtree → elements before root
+  - Right subtree → elements after root
+
+---
+
+### ⚡ Important Insight
+Since we traverse postorder from the end:
+- We always pick the root first
+- So we must build:
+  - Right subtree first
+  - Then left subtree
+
+---
+
+## 🛠️ Approach
+
+### Step 1: Map inorder indices
+- Store value → index in HashMap for quick lookup
+
+### Step 2: Start from postorder end
+- Pointer starts at last index
+
+### Step 3: Build recursively
+For each node:
+- Pick current root from postorder
+- Find its index in inorder
+- Split into left and right parts
+- Recurse:
+  - Right subtree
+  - Left subtree
+
+---
+
+## 💻 Code
+
+```java
+import java.util.HashMap;
+
+class Solution {
+    int i;
+    HashMap<Integer, Integer> hm = new HashMap<>();
+
+    public TreeNode build(int[] inorder, int[] postorder, int si, int ei) {
+        if (si > ei) return null;
+
+        int val = postorder[i--];
+        TreeNode root = new TreeNode(val);
+
+        int idx = hm.get(val);
+
+        root.right = build(inorder, postorder, idx + 1, ei);
+        root.left = build(inorder, postorder, si, idx - 1);
+
+        return root;
+    }
+
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        i = postorder.length - 1;
+
+        for (int k = 0; k < inorder.length; k++) {
+            hm.put(inorder[k], k);
+        }
+
+        return build(inorder, postorder, 0, inorder.length - 1);
+    }
+}
