@@ -1,0 +1,56 @@
+# 🌳 Path Sum
+
+---
+
+## 📌 Problem Statement
+Given a binary tree and a target sum, determine whether there exists a root-to-leaf path such that the sum of node values equals the target.
+
+---
+
+## 🧠 Core Idea
+
+### 🔑 Key Insight
+We check every root-to-leaf path and keep reducing the target sum as we move down the tree.
+
+At each node:
+- Subtract current node value from target
+- Check remaining sum in left and right subtree
+
+---
+
+## ⚙️ Approach
+
+### Step-by-step flow
+1. Start from root
+2. Subtract node value from target
+3. If leaf node:
+   - Check if remaining value equals node value
+4. Recursively check:
+   - Left subtree
+   - Right subtree
+5. If any path returns true → answer is true
+
+---
+
+## 💻 Code
+
+```java
+class Solution {
+
+    public boolean hasSum(TreeNode root, int target) {
+        if (root == null) return false;
+
+        // Leaf node condition
+        if (root.left == null && root.right == null) {
+            return root.val == target;
+        }
+
+        int remaining = target - root.val;
+
+        return hasSum(root.left, remaining) || hasSum(root.right, remaining);
+    }
+
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        return hasSum(root, targetSum);
+    }
+}
