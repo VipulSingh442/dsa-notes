@@ -1,0 +1,65 @@
+
+# 🌳 Count Nodes in Binary Tree
+
+---
+
+## 📌 Concept
+
+Count total nodes using recursion.
+
+Each node =
+`left + right + 1`
+
+---
+
+## ⚙️ Approach
+
+* If `root == null` → return `0`
+* Recursively count left and right
+* Add `1` for current node
+
+---
+
+## 💻 Code
+
+```java
+class Solution {
+
+    public int count(TreeNode root)
+    {
+        if(root == null)
+        {
+            return 0;
+        }
+        if(root.left == null && root.right == null)
+        {
+            return 1;
+        }
+        int lc = count(root.left);
+        int rc = count(root.right);
+        return lc + rc + 1;
+    }
+
+    public int countNodes(TreeNode root) {
+        return count(root);
+    }
+}
+```
+
+---
+
+## 🔑 Key Points
+
+* Simple DFS recursion
+* Works for any binary tree
+* Leaf check is optional
+
+---
+
+## ⏱️ Complexity
+
+* Time: **O(n)**
+* Space: **O(h)**
+
+---
+
