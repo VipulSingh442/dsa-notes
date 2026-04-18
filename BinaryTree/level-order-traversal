@@ -1,0 +1,96 @@
+
+
+# 🌳 Level Order Traversal (Binary Tree)
+
+---
+
+## 📌 Concept
+
+Traverse tree **level by level (BFS)** using a queue.
+
+---
+
+## ⚙️ Approach
+
+* Use queue
+* Add `root` and a `null` marker
+* When `null` appears → level completed
+* Store each level separately
+
+---
+
+## 💻 Code
+
+```java
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+       
+        Queue<TreeNode> q = new LinkedList<>();
+        List<List<Integer>> mainList = new ArrayList<>();
+
+        if(root == null)
+        {
+            return mainList;
+        }
+
+        q.add(root);
+        q.add(null);
+
+        List<Integer> list = new ArrayList<>();
+
+        while(!q.isEmpty())
+        {
+            TreeNode data = q.remove();
+
+            if(data == null)
+            {
+                mainList.add(list);
+                list = new ArrayList<>();
+
+                if(q.isEmpty())
+                {
+                    return mainList;
+                }
+
+                q.add(null);
+            }
+            else{
+                list.add(data.val);
+
+                if(data.left != null)
+                {
+                    q.add(data.left);
+                }
+                if(data.right != null)
+                {
+                    q.add(data.right);
+                }
+            }
+        }
+        return mainList;
+    }
+}
+```
+
+---
+
+## 🔑 Key Points
+
+* BFS traversal using queue
+* `null` used to separate levels
+* Each level stored as list
+
+---
+
+## ⏱️ Complexity
+
+* Time: **O(n)**
+* Space: **O(n)**
+
+---
+
+## 🧠 Learning
+
+Level order = **queue + level separation pattern**
