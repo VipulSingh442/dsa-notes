@@ -1,0 +1,84 @@
+
+
+## 🧠 Concept
+
+* Array is **sorted but rotated**
+* At least **one half is always sorted**
+* Use this property to decide where to search
+
+---
+
+## ⚙️ Approach
+
+* Find `mid`
+* Check which side is sorted:
+
+  * If `nums[mid] >= nums[si]` → left half is sorted
+  * Else → right half is sorted
+* Then check if target lies in the sorted half:
+
+  * Yes → move inside that half
+  * No → move to other half
+
+---
+
+## 💻 Code
+
+
+class Solution {
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+
+        if (n == 1) {
+            return (target == nums[0]) ? 0 : -1;
+        }
+
+        int si = 0;
+        int ei = n - 1;
+
+        while (si <= ei) {
+            int mid = si + (ei - si) / 2;
+
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            // Left half sorted
+            if (nums[mid] >= nums[si]) {
+                if (target >= nums[si] && target < nums[mid]) {
+                    ei = mid - 1;
+                } else {
+                    si = mid + 1;
+                }
+            }
+            // Right half sorted
+            else {
+                if (target > nums[mid] && target <= nums[ei]) {
+                    si = mid + 1;
+                } else {
+                    ei = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+}
+```
+
+---
+
+## ⏱️ Complexity
+
+* Time: `O(log n)`
+* Space: `O(1)`
+
+---
+
+## 📌 Key Points
+
+* One half is always sorted
+* Use sorted half to decide direction
+* No need to find pivot separately
+* Works for all rotated cases
+
+---
