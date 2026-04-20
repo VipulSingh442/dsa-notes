@@ -1,0 +1,90 @@
+
+
+# 📌 Find Minimum in Rotated Sorted Array
+
+---
+
+## 🧠 Concept
+
+* Array is **sorted but rotated**
+* Minimum element = **pivot point**
+* Use **Binary Search** to find it in `O(log n)`
+
+---
+
+## ⚙️ Approach
+
+1. Use two pointers: `si` and `ei`
+2. If current range is already sorted:
+
+   * `nums[si] <= nums[ei]` → return `nums[si]`
+3. Find `mid`
+4. Decide direction:
+
+   * If `nums[mid] <= nums[ei]` → min lies on **left (including mid)** → `ei = mid`
+   * If `nums[mid] > nums[ei]` → min lies on **right** → `si = mid + 1`
+5. Loop ends when `si == ei` → this is the minimum
+
+---
+
+## 💻 Code
+
+
+class Solution {
+    public int findMin(int[] nums) {
+        
+        int n = nums.length;
+        int si = 0;
+        int ei = n - 1;
+
+        while (si < ei) {
+            if (nums[si] <= nums[ei]) {
+                return nums[si];
+            }
+
+            int mid = si + (ei - si) / 2;
+
+            if (nums[mid] <= nums[ei]) {
+                ei = mid;
+            } else {
+                si = mid + 1;
+            }
+        }
+        return nums[si];
+    }
+}
+```
+
+
+
+## 🔑 Key Points
+
+* Compare with **right element (`nums[ei]`)**, not left
+* Never use `ei = mid - 1` → might skip answer
+* Loop condition: `si < ei` (not `<=`)
+* Early check avoids unnecessary work
+
+---
+
+## ⏱ Complexity
+
+* Time: **O(log n)**
+* Space: **O(1)**
+
+---
+
+## 📚 Learnings
+
+* Rotated array = **two sorted halves**
+* Binary search can be used on **unsorted-looking arrays**
+* Direction depends on which half is sorted
+
+---
+
+## ⚡ Edge Cases
+
+* `[1,2,3,4]` → already sorted → return `1`
+* `[2,1]` → small rotated → works
+* `[1]` → single element → works
+
+---
