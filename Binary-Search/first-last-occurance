@@ -1,0 +1,152 @@
+
+
+# 📌 Find First and Last Position of Element in Sorted Array
+
+---
+
+## 🧠 Concept
+
+* Use **Binary Search** to find:
+
+  * First occurrence (leftmost index)
+  * Last occurrence (rightmost index)
+* Instead of stopping at first match:
+
+  * Move **left** for first occurrence
+  * Move **right** for last occurrence
+
+---
+
+## ⚙️ Approach
+
+1. Run a normal binary search to check if target exists
+2. Once found:
+
+   * Call `first()` → search left side
+   * Call `last()` → search right side
+3. If not found → return `[-1, -1]`
+
+---
+
+## 💻 Code
+
+```java
+class Solution {
+    int res[] = new int[2];
+
+    public int first(int s,int e,int tar,int[] arr)
+    {
+        int ans = -1;
+      while(s <= e)
+      {
+        int m = s + (e-s)/2;
+        if(arr[m] == tar)
+        {
+            ans = m;
+            e = m-1;
+        }
+        else if(arr[m] < tar)
+        {
+            s = m+1;
+        }
+        else{
+            e = m-1;
+        }
+      }
+      return ans;
+    }
+
+    public int last(int s,int e,int tar,int[] arr)
+    {
+        int ans = -1;
+        while(s <= e)
+        {
+            int m = s+(e-s)/2;
+            if(arr[m] == tar)
+            {
+                ans = m;
+                s = m+1;
+            }
+            else if(arr[m] > tar)
+            {
+                e = m-1;
+            }
+            else{
+                s = m+1;
+            }
+        }
+        return ans;
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int n = nums.length;
+        
+        if(n==0)
+        {
+            res[0] = -1;
+            res[1] = -1;
+            return res;
+        }
+
+        int si = 0;
+        int ei = n-1;
+        while(si <= ei)
+        {
+            int mid = si + (ei-si)/2;
+            if(target == nums[mid])
+            {
+                res[0] = first(si,mid,target,nums);
+                res[1] = last(mid,ei,target,nums);
+                return res;
+            }
+            else if(target > nums[mid])
+            {
+                si = mid+1;
+            }
+            else if(target < nums[mid])
+            {
+                ei = mid-1;
+            }
+        }
+        res[0] = -1;
+        res[1] = -1;
+        return res;
+    }
+}
+```
+
+---
+
+## 🔑 Key Points
+
+* Always handle **3 cases**: `==`, `<`, `>`
+* Don’t stop when target is found → expand search
+* First → move left (`e = mid - 1`)
+* Last → move right (`s = mid + 1`)
+
+---
+
+## ⏱ Complexity
+
+* Time: **O(log n)**
+* Space: **O(1)**
+
+---
+
+## 📚 Learnings
+
+* Binary search is not just for finding element
+* It can be modified to find:
+
+  * First occurrence
+  * Last occurrence
+  * Range / frequency
+
+
+
+
+
+
+
+
+
