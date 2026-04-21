@@ -1,0 +1,92 @@
+
+
+# 📘 Plus One (Array → Number)
+
+
+You’re given a number in **array form** (each digit stored separately).
+Add **1** to it and return the updated array.
+
+👉 Example:
+
+* `[1,2,3] → 123 + 1 = 124 → [1,2,4]`
+* `[9,9] → 99 + 1 = 100 → [1,0,0]`
+
+---
+
+## 🔹 Concept
+
+* Work from **right to left** (like manual addition)
+* Handle **carry**
+* If digit < 9 → simple increment
+* If digit = 9 → becomes `0` and carry continues
+
+---
+
+## 🔄 Approach
+
+1. Start from last index
+2. If current digit < 9:
+
+   * Increment and return immediately ✅
+3. If digit == 9:
+
+   * Set to `0` and continue (carry forward)
+4. If all digits were `9`:
+
+   * Create new array of size `n+1`
+   * Set first element = `1`
+
+---
+
+## 💻 Code
+
+```java
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int n = digits.length;
+
+        for(int i = n - 1; i >= 0; i--) {
+            if(digits[i] < 9) {
+                digits[i]++;
+                return digits;
+            } else {
+                digits[i] = 0;
+            }
+        }
+
+        int[] res = new int[n + 1];
+        res[0] = 1;
+        return res;
+    }
+}
+```
+
+---
+
+
+
+All became 0 → create new array
+
+### Output:
+
+```
+[1,0,0,0]
+```
+
+---
+
+## 🔑 Key Points
+
+* Early return makes it **efficient**
+* No need to process full array always
+* Handles carry like real addition
+* Extra array only when needed
+
+---
+
+## ⚡ Complexity
+
+* **Time:** `O(n)`
+* **Space:** `O(1)` (except worst case → new array)
+
+---
