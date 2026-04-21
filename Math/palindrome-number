@@ -1,0 +1,130 @@
+
+
+# 📘 Palindrome Number
+
+## 🧠 Idea (In Simple Words)
+
+We need to check if a number reads the same **forward and backward**.
+
+👉 Example:
+
+* `121` → Palindrome ✅
+* `123` → Not a palindrome ❌
+
+---
+
+## 🚫 Quick Rejections (Important)
+
+Before doing any work:
+
+* Negative numbers → ❌ (`-121` is not palindrome)
+* Numbers ending with `0` (except `0`) → ❌
+
+  * Example: `10 → 01` (invalid)
+
+
+
+## ⚡ Fast Acceptance
+
+* Single digit numbers are always palindrome
+
+
+if(x >= 0 && x <= 9) return true;
+```
+
+---
+
+## 🔄 Approach (Reverse the Number)
+
+1. Store original number → `y = x`
+2. Reverse the number:
+
+   * Extract last digit → `x % 10`
+   * Build reversed number → `num = num * 10 + rem`
+3. Compare:
+
+   * If `y == num` → palindrome
+
+---
+
+## 💻 Code
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        if(x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+        if(x >= 0 && x <= 9) {
+            return true;
+        }
+
+        int y = x;
+        int rem = 0;
+        int num = 0;
+
+        while(x > 0) {
+            rem = x % 10;
+            num = num * 10 + rem;
+            x /= 10;
+        }
+
+        return y == num;
+    }
+}
+```
+
+---
+
+## ⚠️ Important Caveat
+
+This approach **can overflow** for large numbers
+(because `num = num * 10 + rem`)
+
+---
+
+## 🚀 Better Approach (Interview Level)
+
+Instead of reversing full number:
+
+* Reverse **only half**
+* Compare halves
+
+Why?
+
+* No overflow
+* More efficient
+
+---
+
+## 🔑 Key Points
+
+* Always handle edge cases first
+* Reversal logic is standard pattern
+* Think about **overflow in integer problems**
+* Optimization = **reverse half only**
+
+---
+
+## 🧩 Pattern You’re Learning
+
+This problem builds:
+
+* Digit extraction (`% 10`)
+* Number reconstruction
+* Edge case handling (very important in interviews)
+
+---
+
+## 🧠 Learnings
+
+* Don’t just solve — **optimize thinking**
+* Recognize when full reversal is unnecessary
+* Edge cases can eliminate half the work
+
+---
+
+If you want, I can give you:
+
+* ✅ Half-reversal optimized code (most asked)
+* ✅ Dry run for tricky case (like 1221 / 10)
+* ✅ Pattern mapping with other digit problems
