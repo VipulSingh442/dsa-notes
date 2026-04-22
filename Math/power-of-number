@@ -1,0 +1,104 @@
+
+# 📌 Power Function (Fast Exponentiation / Binary Exponentiation)
+
+## 🔹 Concept
+
+* Goal: Compute `xⁿ` efficiently
+* Brute force = multiply `x` n times → ❌ O(n)
+* Optimized idea:
+
+  * Use **divide & conquer**
+  * Break power into halves
+
+👉 Key identity:
+
+* If `n` is even → `xⁿ = (x^(n/2))²`
+* If `n` is odd → `xⁿ = (x^(n/2))² × x`
+
+---
+
+## 🔹 Approach
+
+1. Handle negative power:
+
+   * `x⁻ⁿ = 1 / xⁿ`
+2. Convert `int n` → `long` (to avoid overflow for `-2³¹`)
+3. Recursively:
+
+   * Compute `halfPower = pow(x, n/2)`
+   * Square it
+   * Multiply by `x` if `n` is odd
+
+---
+
+## 🔹 Code
+
+
+class Solution {
+
+    public double pow(double y, long m)
+    {
+        if(m == 0)
+        {
+            return 1;
+        }
+
+        double halfPower = pow(y, m/2);
+        double halfPowerSquare = halfPower * halfPower;
+
+        if(m % 2 != 0)
+        {
+            return halfPowerSquare * y;
+        }
+
+        return halfPowerSquare;
+    }
+
+    public double myPow(double x, int n) {
+        long N = n;
+
+        if(N < 0)
+        {
+            x = 1 / x;
+            N = -N;
+        }
+
+        return pow(x, N);
+    }
+}
+```
+
+---
+
+
+
+## 🔹 Key Points
+
+* Time Complexity: **O(log n)**
+* Space Complexity: **O(log n)** (recursion stack)
+* Handles negative powers correctly
+* Using `long` avoids overflow edge case:
+
+  * `n = -2³¹` ❗
+
+---
+
+## 🔹 Learnings
+
+* Classic **Divide & Conquer**
+* Reduces exponential work → logarithmic
+* Important pattern used in:
+
+  * Modular exponentiation
+  * Matrix exponentiation
+  * Binary lifting
+
+---
+
+## 🔥 Interview Insight
+
+* This is known as:
+  👉 **Binary Exponentiation / Fast Power**
+* Very commonly asked problem (e.g., LeetCode “Pow(x, n)”)
+
+---
