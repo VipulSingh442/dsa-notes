@@ -1,0 +1,64 @@
+
+
+# 📌 Trailing Zeroes in Factorial (Optimized Approach)
+
+## 🔹 Concept
+
+* Trailing zeroes in `n!` come from factors of **10**
+* And **10 = 2 × 5**
+* In factorials, **2s are more frequent than 5s**
+* So, we only count **number of 5s**
+
+👉 Final idea:
+Count how many times **5 is a factor** in numbers from `1 → n`
+
+---
+
+## 🔹 Approach
+
+* Divide `n` by 5 → gives count of multiples of 5
+* Divide again by 5 → accounts for numbers like 25, 125 (extra 5s)
+* Keep repeating until `n` becomes 0
+
+### Formula 
+
+```
+count = n/5 + n/25 + n/125 + ...
+```
+
+
+
+## 🔹 Code
+
+
+class Solution {
+    public int trailingZeroes(int n) {
+        
+        int count = 0;
+        while(n > 0)
+        {
+            n /= 5;
+            count += n;
+        }
+        return count;
+    }
+}
+
+
+
+
+## 🔹 Key Points
+
+* Only count **factor 5**, ignore 2
+* Handles large inputs efficiently
+* Works in **O(log₅ n)** time
+* No need to compute factorial (avoids overflow)
+
+---
+
+## 🔹 Learnings
+
+* Instead of brute force, think in terms of **prime factors**
+* Repeated division helps count **hidden contributions**
+* Classic example of **mathematical optimization in DSA**
+
