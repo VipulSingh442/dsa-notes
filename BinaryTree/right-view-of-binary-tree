@@ -1,0 +1,166 @@
+
+
+# 🌳 Right Side View of Binary Tree (BFS)
+
+## 🧠 Concept
+
+* We need to see the tree from the **right side**
+* At every level, only **one node is visible**
+* That node is the **rightmost node of that level**
+
+👉 Core idea:
+
+> “For each level, take the last node”
+
+---
+
+## ⚙️ Approach (Your BFS with Level Marker)
+
+### 💡 Idea
+
+* Use **level order traversal (BFS)**
+* Use `null` to mark **end of each level**
+* Track last node of each level using `prev`
+
+---
+
+### 🔁 Flow
+
+1. Add root to queue
+2. Add `null` → marks end of level
+3. Traverse queue:
+
+   * If node is **not null**:
+
+     * Store value in `prev`
+     * Add children to queue
+   * If node is **null**:
+
+     * Add `prev` to result (last node of level)
+     * Add another `null` (if queue not empty)
+
+---
+
+## 💻 Code 
+
+```java
+class Solution {
+    public List<Integer> rightSideView(TreeNode root) {
+        // Edge case: empty tree
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> list = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+
+        q.add(root);
+        q.add(null); // marks end of level
+
+        int prev = -1; // stores last node of level
+
+        while (!q.isEmpty()) {
+            TreeNode curr = q.remove();
+
+            if (curr == null) {
+                // end of current level
+                if (q.isEmpty()) {
+                    list.add(prev); // last level
+                    return list;
+                }
+
+                list.add(prev); // add rightmost node
+                q.add(null);    // mark next level
+
+            } else {
+                prev = curr.val; // keep updating → last node of level
+
+                if (curr.left != null) {
+                    q.add(curr.left);
+                }
+                if (curr.right != null) {
+                    q.add(curr.right);
+                }
+            }
+        }
+        return list;
+    }
+}
+```
+
+---
+
+## 🔍 Key Points
+
+* `prev` always stores **last node seen in current level**
+* `null` helps detect **level boundary**
+* When `null` is reached → level completed
+* Add `prev` → gives **rightmost node**
+
+---
+
+## ⚠️ Learnings / Improvements
+
+* Using `null` marker works but is **not optimal**
+* Cleaner approach exists using:
+
+  * `queue.size()` (preferred in interviews)
+* `prev = -1` is not ideal (what if tree contains -1?)
+
+---
+
+## ✅ Better Approach 
+
+👉 Use level size instead of `null`
+
+```java
+while(!q.isEmpty()) {
+    int size = q.size();
+
+    for(int i = 0; i < size; i++) {
+        TreeNode curr = q.poll();
+
+        if(curr.left != null) q.add(curr.left);
+        if(curr.right != null) q.add(curr.right);
+
+        if(i == size - 1) {
+            result.add(curr.val); // rightmost
+        }
+    }
+}
+```
+
+---
+
+## ⚡ Complexity
+
+* **Time:** O(n)
+* **Space:** O(n)
+
+---
+
+## 🎯 Interview Insight
+
+> This problem is just **Level Order Traversal + picking last node of each level**
+
+---
+
+## 🧩 Pattern Connection
+
+Same pattern used in:
+
+* Left View of Tree → take **first node**
+* Level Order Traversal
+* Zig-Zag Traversal (slight modification)
+
+---
+
+## 🚀 Final Takeaway
+
+* Your logic is **correct and interview-acceptable**
+* But aim for:
+
+  * ❌ Less control complexity
+  * ✅ More clean patterns
+
+
