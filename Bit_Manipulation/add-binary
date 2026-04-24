@@ -1,0 +1,127 @@
+
+
+# 🧠 Add Binary (String) — Notes
+
+## 🔹 Problem
+
+Given two binary strings `a` and `b`, return their **sum as a binary string**.
+
+
+
+---
+
+## 🔹 Concept
+
+* This is just like **normal addition**, but in **binary (base 2)**
+* Rules:
+
+  * `0 + 0 = 0`
+  * `1 + 0 = 1`
+  * `1 + 1 = 0 (carry 1)`
+  * `1 + 1 + 1 = 1 (carry 1)`
+
+👉 We process from **right to left** (LSB → MSB)
+
+---
+
+## 🔹 Approach
+
+1. Use two pointers:
+
+   * `i` → end of string `a`
+   * `j` → end of string `b`
+
+2. Maintain a `carry`
+
+3. Loop while:
+
+   * `i >= 0` OR `j >= 0`
+
+4. At each step:
+
+   * Take digit from `a` (`x`)
+   * Take digit from `b` (`y`)
+   * Compute `sum = x + y + carry`
+
+5. Update:
+
+   * Result digit → `sum % 2`
+   * Carry → `sum / 2`
+
+6. Append result to `StringBuilder`
+
+7. Reverse at the end (because we built it backwards)
+
+---
+
+## 🔹 Code
+
+```java
+import java.util.*;
+
+class Solution {
+    public String addBinary(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+        int carry = 0;
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+
+        while (i >= 0 || j >= 0) {
+            int x = (i >= 0) ? a.charAt(i) - '0' : 0;
+            int y = (j >= 0) ? b.charAt(j) - '0' : 0;
+
+            int sum = x + y + carry;
+
+            sb.append(sum % 2);   // current bit
+            carry = sum / 2;      // update carry
+
+            i--;
+            j--;
+        }
+
+        if (carry == 1) {
+            sb.append(carry);
+        }
+
+        return sb.reverse().toString();
+    }
+}
+```
+
+---
+
+## 🔹 Dry Run (Example)
+
+```text
+a = "1010"
+b = "1011"
+
+Step-by-step:
+
+0 + 1 = 1
+1 + 1 = 0 (carry 1)
+0 + 0 + 1 = 1
+1 + 1 = 0 (carry 1)
+carry = 1
+
+Result (reverse) → 10101
+```
+
+---
+
+## 🔹 Key Points 💡
+
+* Always process from **right → left**
+* Convert char to int using:
+
+  ```java
+  a.charAt(i) - '0'
+  ```
+* Use `StringBuilder` for efficiency
+* Don’t forget **final carry**
+* Reverse at the end
+
+
+
+
+
