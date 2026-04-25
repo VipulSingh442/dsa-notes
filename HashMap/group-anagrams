@@ -1,0 +1,100 @@
+
+# 🧩 Group Anagrams
+
+## 📌 Concept
+
+* Two strings are **anagrams** if they contain the same characters with the same frequency.
+* Key idea:
+
+  * If you **sort** both strings → anagrams will have the **same sorted form**
+
+```
+eat → aet  
+tea → aet  
+ate → aet
+```
+
+👉 Use this sorted string as a **key in HashMap**
+
+---
+
+## ⚙️ Approach
+
+1. Create a `HashMap<String, List<String>>`
+
+   * Key → sorted string
+   * Value → list of anagrams
+
+2. Loop through each string:
+
+   * Convert to char array
+   * Sort it
+   * Convert back to string (key)
+
+3. If key exists:
+
+   * Add string to existing list
+
+4. Else:
+
+   * Create new list and add string
+
+5. Return all values of hashmap
+
+---
+
+## 💻 Code
+
+
+import java.util.*;
+
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        
+        HashMap<String, List<String>> hm = new HashMap<>();
+        
+        for (int i = 0; i < strs.length; i++) {
+            String str = strs[i];
+
+            char[] arr = str.toCharArray();
+            Arrays.sort(arr);
+            String sortedStr = new String(arr);
+
+            if (hm.containsKey(sortedStr)) {
+                hm.get(sortedStr).add(str);
+            } else {
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                hm.put(sortedStr, list);
+            }
+        }
+
+        return new ArrayList<>(hm.values());
+    }
+}
+```
+
+---
+
+## ⏱️ Complexity
+
+| Type  | Complexity       |
+| ----- | ---------------- |
+| Time  | `O(n * k log k)` |
+| Space | `O(n * k)`       |
+
+* `n` → number of strings
+* `k` → max length of string
+* Sorting each string costs `k log k`
+
+---
+
+## 🔑 Key Points
+
+* `Arrays.sort(char[])` is used to normalize strings
+* `HashMap` groups similar keys
+* `map.values()` gives all grouped anagrams
+* Order of output **does not matter**
+
+* 🔥 I can give **O(n) frequency-based code**
+* 🔍 Or a **step-by-step dry run (very helpful for interviews)**
