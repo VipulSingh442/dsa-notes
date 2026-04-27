@@ -1,0 +1,121 @@
+# 🧠 Reverse Bits
+
+---
+
+## 🔹 Concept
+
+We are given a 32-bit integer `n` and need to **reverse its binary bits**.
+
+👉 Example:
+
+```text
+Input  (binary):  00000010100101000001111010011100  
+Output (binary):  00111001011110000010100101000000
+```
+
+---
+
+## 🔹 Core Idea 
+
+Think like this:
+
+> “Take bits from right (LSB) one by one and build the new number from left”
+
+So:
+
+* Extract last bit of `n`
+* Add it to `result`
+* Shift `result` left to make space
+* Repeat 32 times
+
+---
+
+## 🔹 Approach
+
+
+1. Take last bit → `n & 1`
+2. Shift `result` left → make space
+3. Add that bit to result
+4. Shift `n` right → move to next bit
+5. Repeat for **32 bits**
+
+---
+
+## 🔹 Code
+
+```java
+class Solution {
+    public int reverseBits(int n) {
+        int result = 0;
+
+        for (int i = 0; i < 32; i++) {
+            int lastDigit = n & 1;   // extract last bit
+            result = result << 1;    // make space
+            result |= lastDigit;     // add bit
+            n = n >> 1;              // move to next bit
+        }
+
+        return result;
+    }
+}
+```
+
+---
+
+## 🔹 Dry Run 
+
+Let’s say:
+
+```text
+n = 5 → binary: 101
+```
+
+### Iterations:
+
+| Step | n (binary) | last bit | result |
+| ---- | ---------- | -------- | ------ |
+| 1    | 101        | 1        | 1      |
+| 2    | 10         | 0        | 10     |
+| 3    | 1          | 1        | 101    |
+
+👉 Result = `101` → reversed form (for 3 bits)
+
+---
+
+## 🔹 Key Operations
+
+| Operation     | Meaning                 |            |
+| ------------- | ----------------------- | ---------- |
+| `n & 1`       | get last bit            |            |
+| `result << 1` | shift left (make space) |            |
+| `result       | = bit`                  | insert bit |
+| `n >> 1`      | move to next bit        |            |
+
+---
+
+## 🔹 Important Points
+
+* Loop runs **exactly 32 times** (integer = 32 bits)
+* Works even for negative numbers (2’s complement)
+* Uses **bit manipulation (very important for interviews)**
+
+---
+
+## 🔹 Time & Space Complexity
+
+* **Time:** `O(1)` (always 32 iterations)
+* **Space:** `O(1)`
+
+---
+
+## 🔹 Learnings / Intuition
+
+* Build answer **bit by bit**
+* Think:
+
+  > “Input right → Output left”
+* Shift operations are your tools:
+
+  * Right shift → read bits
+  * Left shift → build number
+
