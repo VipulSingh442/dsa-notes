@@ -1,0 +1,99 @@
+# 🧠 Hamming Weight (Number of 1 Bits)
+
+## 📌 Concept
+
+* We need to count how many **1s are present in the binary representation** of a number.
+* This is also called **set bits**.
+
+Example:
+`n = 5 → binary = 101 → answer = 2`
+
+---
+
+## ⚙️ Approach 
+* Check the **last bit (LSB)** using:
+
+  ```java
+  (n & 1)
+  ```
+
+  * If result = 1 → last bit is **1**
+  * If result = 0 → last bit is **0**
+
+* Then **right shift** the number:
+
+  ```java
+  n = n >> 1;
+  ```
+
+  👉 This removes the last bit
+
+* Repeat until `n == 0`
+
+---
+
+## 💻 Code
+
+```java
+class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+
+        while(n != 0) {
+            if((n & 1) != 0) {
+                count++;
+            }
+            n = n >> 1;
+        }
+        return count;
+    }
+}
+```
+
+---
+
+
+## ⚡ Key Points
+
+* `(n & 1)` → checks last bit
+* `n >> 1` → shifts bits right
+* Loop runs **until all bits are processed**
+
+---
+
+## 🚀 Optimization 
+
+Better approach using:
+
+```java
+n = n & (n - 1);
+```
+
+### Why better?
+
+* Removes **rightmost set bit**
+* Runs only for number of **1s**, not all bits
+
+```java
+class Solution {
+    public int hammingWeight(int n) {
+        int count = 0;
+
+        while(n != 0) {
+            n = n & (n - 1);
+            count++;
+        }
+        return count;
+    }
+}
+```
+
+---
+
+## ⏱ Complexity
+
+| Approach  | Time            |
+| --------- | --------------- |
+| Your code | O(32)           |
+| Optimized | O(number of 1s) |
+
