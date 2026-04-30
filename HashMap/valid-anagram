@@ -1,0 +1,124 @@
+
+# 🔤 Valid Anagram (Java)
+
+## 📌 Concept
+
+Two strings are **anagrams** if:
+
+* They contain the **same characters**
+* With the **same frequency**
+* Order doesn’t matter
+
+Example:
+
+* `"listen"` → `"silent"` ✅
+* `"rat"` → `"car"` ❌
+
+---
+
+## 💡 Approach (Sorting Technique)
+
+1. **Length Check**
+
+   * If lengths are different → cannot be anagram
+
+2. **Convert to lowercase**
+
+   * To handle case-insensitive comparison (`"Listen"` vs `"Silent"`)
+
+3. **Convert to char arrays**
+
+   * Strings → character arrays for sorting
+
+4. **Sort both arrays**
+
+   * If both strings are anagrams → sorted arrays will be identical
+
+5. **Compare arrays**
+
+   * Use `Arrays.equals()`
+
+---
+
+## 💻 Code
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        if(s.length() != t.length()) {
+            return false;
+        }
+
+        // IMPORTANT: Strings are immutable, so assign back
+        s = s.toLowerCase();
+        t = t.toLowerCase();
+
+        char arr1[] = s.toCharArray();
+        char arr2[] = t.toCharArray();
+
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+
+        return Arrays.equals(arr1, arr2);
+    }
+}
+```
+
+---
+
+## ⚠️ Important Catch (Common Mistake)
+
+```java
+s.toLowerCase(); 
+```
+
+* Strings in Java are **immutable**
+* You must assign:
+
+```java
+s = s.toLowerCase(); 
+```
+
+---
+
+## ⏱️ Complexity
+
+| Operation   | Time Complexity |
+| ----------- | --------------- |
+| Sorting     | O(n log n)      |
+| Comparison  | O(n)            |
+| **Overall** | O(n log n)      |
+
+---
+
+## 🧠 Key Points
+
+* Sorting is the **simplest approach**, but not the most optimal
+* Works well for small inputs
+* Case handling matters in real-world problems
+* Always remember **String immutability in Java**
+
+---
+
+## 🚀 Optimization Idea (Better Approach)
+
+Instead of sorting:
+
+* Use a **frequency array (size 26)** for lowercase letters
+* Time complexity becomes **O(n)**
+
+---
+
+## 📚 Learnings
+
+* Learned how to **compare strings ignoring order**
+* Understood **immutability of Strings**
+* Practiced using:
+
+  * `Arrays.sort()`
+  * `Arrays.equals()`
+
+
+
