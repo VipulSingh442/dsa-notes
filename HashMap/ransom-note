@@ -1,0 +1,89 @@
+
+
+## 🧠 Concept
+
+We need to check if we can construct `ransomNote` using characters from `magazine`.
+
+* Each character in `magazine` can be used **only once**
+* This is a classic **frequency counting problem**
+* Use an array to track how many times each character appears
+
+---
+
+## ⚙️ Approach
+
+### Step 1: Count frequencies
+
+* Create an array `freq[26]` for lowercase letters
+* Store count of each character from `magazine`
+
+### Step 2: Match characters
+
+* Traverse `ransomNote`
+* For each character:
+
+  * Check if frequency is available
+  * If not → return `false`
+  * Else → decrement frequency
+
+### Step 3: Final result
+
+* If all characters matched → return `true`
+
+---
+
+## 💻 Code
+```java
+class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int freq[] = new int[26];
+
+        // Count characters in magazine
+        for(int i = 0; i < magazine.length(); i++) {
+            freq[magazine.charAt(i) - 'a']++;
+        }
+
+        // Check for ransomNote
+        for(int i = 0; i < ransomNote.length(); i++) {
+            if(freq[ransomNote.charAt(i) - 'a'] <= 0) {
+                return false;
+            }
+            freq[ransomNote.charAt(i) - 'a']--;
+        }
+
+        return true;
+    }
+}
+```
+
+---
+
+## 🔑 Key Points
+
+* `char - 'a'` → maps character to index (0–25)
+* Array is faster than HashMap (O(1) access, less overhead)
+* Greedy consumption: use characters as needed
+* Works only for **lowercase English letters**
+
+---
+
+## 📊 Complexity
+
+| Type  | Complexity                 |
+| ----- | -------------------------- |
+| Time  | O(n + m)                   |
+| Space | O(1) (fixed size array 26) |
+
+---
+
+## 🎯 Learnings
+
+* Frequency array is a powerful tool for string problems
+* Always think:
+
+  > “Can I convert this into counting problem?”
+* Prefer arrays over HashMap when character range is fixed
+
+---
+
+
