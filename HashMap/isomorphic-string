@@ -1,0 +1,157 @@
+
+
+# 🔹 Isomorphic Strings (SCN Notes)
+
+## 📌 Concept
+
+Two strings are **isomorphic** if:
+
+* Each character in string `s` maps to a **unique character** in string `t`
+* Mapping is **consistent**
+* No two characters from `s` map to the **same character in `t`**
+
+👉 In short:
+
+```
+One-to-One Mapping (Bijective)
+```
+
+---
+
+## 🧠 Approach
+
+We use **two HashMaps**:
+
+| Map  | Purpose       |
+| ---- | ------------- |
+| `hm` | s → t mapping |
+| `m`  | t → s mapping |
+
+### Why 2 maps?
+
+* One map ensures:
+
+  ```
+  same char in s → same char in t
+  ```
+* Second map ensures:
+
+  ```
+  no two chars in s map to same char in t
+  ```
+
+---
+
+## ⚙️ Algorithm
+
+1. If lengths differ → return `false`
+2. Traverse both strings together
+3. For each `(s[i], t[i])`:
+
+   * Check mapping in `hm`
+   * Check reverse mapping in `m`
+4. If mismatch → return `false`
+5. Otherwise → store mapping
+6. If loop completes → return `true`
+
+---
+
+## 💻 Code
+
+```java
+import java.util.HashMap;
+
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+
+        HashMap<Character, Character> hm = new HashMap<>();
+        HashMap<Character, Character> m = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char s1 = s.charAt(i);
+            char t1 = t.charAt(i);
+
+            // s -> t mapping
+            if (hm.containsKey(s1)) {
+                if (hm.get(s1) != t1) {
+                    return false;
+                }
+            } else {
+                hm.put(s1, t1);
+            }
+
+            // t -> s mapping
+            if (m.containsKey(t1)) {
+                if (m.get(t1) != s1) {
+                    return false;
+                }
+            } else {
+                m.put(t1, s1);
+            }
+        }
+
+        return true;
+    }
+}
+```
+
+---
+
+## 🔍 Example
+
+```
+s = "egg"
+t = "add"
+
+Mapping:
+e → a
+g → d
+
+✔ Valid → true
+```
+
+```
+s = "foo"
+t = "bar"
+
+f → b
+o → a
+o → r ❌ conflict
+
+✖ Invalid → false
+```
+
+---
+
+## ⏱ Complexity
+
+| Type  | Complexity |
+| ----- | ---------- |
+| Time  | O(n)       |
+| Space | O(n)       |
+
+---
+
+## ⚡ Key Points
+
+* Always think **bijection (two-way mapping)**
+* One map alone is **not enough**
+* Order of characters matters
+* Works best with **HashMap**
+
+---
+
+## 🚀 Learnings
+
+* This is a classic **mapping consistency problem**
+* Similar problems:
+
+  * Pattern matching
+  * Word pattern
+* Trick: Whenever you see **"one-to-one mapping" → use 2 maps**
+
+---
+
