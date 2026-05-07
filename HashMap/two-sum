@@ -1,0 +1,57 @@
+## Question
+
+Given an integer array `nums` and an integer `target`, return indices of two numbers such that:
+
+
+nums[i] + nums[j] = target
+```
+
+
+# Approach
+
+* Use `HashMap` to store:
+
+```text id="wl7l77"
+number -> index
+```
+
+* Traverse the array.
+* For every element:
+
+  * Find required value using:
+
+```java id="8rpnjl"
+target - nums[i]
+```
+
+* Check if required value already exists in map.
+* If yes, return indices.
+* Otherwise store current element in map.
+
+---
+
+# Code
+
+```java id="6npkh6"
+import java.util.HashMap;
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+
+        HashMap<Integer,Integer> hm = new HashMap<>();
+
+        for(int i = 0; i < nums.length; i++) {
+
+            int complement = target - nums[i];
+
+            if(hm.containsKey(complement)) {
+                return new int[]{hm.get(complement), i};
+            }
+
+            hm.put(nums[i], i);
+        }
+
+        return new int[]{};
+    }
+}
+```
