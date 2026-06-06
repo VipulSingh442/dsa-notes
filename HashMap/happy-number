@@ -1,0 +1,56 @@
+
+## Question
+
+Determine whether a number is a **Happy Number**.
+
+A happy number is a number that eventually reaches `1` when replaced repeatedly by the sum of the squares of its digits. If the process enters a cycle that does not include `1`, the number is not happy.
+
+---
+
+## Approach
+
+* Create a function to calculate the sum of squares of digits.
+* Use **Floyd's Cycle Detection Algorithm (Slow and Fast Pointers)**.
+* `slow` moves one step at a time.
+* `fast` moves two steps at a time.
+* If both pointers meet, a cycle exists.
+* If the meeting point is `1`, the number is happy.
+
+---
+
+## Code
+
+```java
+class Solution {
+
+    public static int calSquareSum(int num)
+    {
+        int ans = 0;
+        while(num > 0)
+        {
+            int last = num % 10;
+            ans += last * last;
+            num /= 10;
+        }
+        return ans;
+    }
+
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = n;
+
+        do {
+            slow = calSquareSum(slow);
+            fast = calSquareSum(calSquareSum(fast));
+        } while(slow != fast);
+
+        return slow == 1;
+    }
+}
+```
+
+
+
+
+
+
