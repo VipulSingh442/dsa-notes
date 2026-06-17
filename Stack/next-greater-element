@@ -1,0 +1,123 @@
+
+# Next Greater Element using Stack (Java)
+
+## Question
+
+Given an array, find the **next greater element** for every element.
+
+* ‌
+
+  The next greater element is the first element on the right side that is greater than the current element.
+
+* ‌
+
+  If no greater element exists, return `-1`.
+
+* ‌
+
+For example:
+
+Input: `[6, 8, 0, 1, 3]`
+
+Output: `8 -1 1 3 -1`
+
+---
+
+## Approach
+
+We use a **Stack** to keep indexes of elements.
+
+### Steps:
+
+1. ‌
+
+   Start from the right side of the array.
+
+2. ‌
+
+   Remove all smaller or equal elements from the stack.
+
+3. ‌
+
+   If the stack becomes empty, answer is `-1`.
+
+4. ‌
+
+   Otherwise, the top element of the stack is the next greater element.
+
+5. ‌
+
+   Push the current index into the stack.
+
+6. ‌
+
+### Time Complexity
+
+* ‌
+
+  **O(n)** because every element is pushed and popped at most once.
+
+* ‌
+
+### Space Complexity
+
+* ‌
+
+  **O(n)** for the stack and result array.
+
+* ‌
+
+---
+
+## Code
+
+```
+
+// next greater element
+import java.util.*;
+
+public class Practice {
+
+    public static void nextGreater(Stack<Integer> s, int arr[]) {
+        int res[] = new int[arr.length];
+        s.push(arr.length - 1);
+        res[arr.length - 1] = -1;
+
+        for (int i = arr.length - 2; i >= 0; i--) {
+            // if (arr[i] < arr[s.peek()]) {
+            // res[i] = arr[s.peek()];
+            // s.push(i);
+            // }
+
+            if (arr[i] >= arr[s.peek()]) {
+                while (!s.isEmpty() && arr[i] >= arr[s.peek()]) {
+                    s.pop();
+                }
+
+                if (s.isEmpty()) {
+                    res[i] = -1;
+
+                }
+
+            } else {
+
+                res[i] = arr[s.peek()];
+
+            }
+            s.push(i);
+
+        }
+
+        for (int i = 0; i < res.length; i++) {
+            System.out.print(res[i] + " ");
+        }
+    }
+
+    public static void main(String args[]) {
+        int arr[] = { 6, 8, 0, 1, 3 };
+        Stack<Integer> s = new Stack<>();
+        nextGreater(s, arr);
+
+    }
+}
+
