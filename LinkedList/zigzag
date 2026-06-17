@@ -1,0 +1,176 @@
+
+
+## Question
+
+Given a singly linked list, rearrange it in a zig-zag fashion.
+
+Example:
+
+```text
+Input:
+1 -> 2 -> 3 -> 4 -> 5
+
+Output:
+1 -> 5 -> 2 -> 4 -> 3
+```
+
+The first node remains the same, the last node comes next, then the second node, then the second last node, and so on.
+
+---
+
+## Approach
+
+### Step 1: Find the Middle Node
+
+Use the slow and fast pointer technique.
+
+* `slow` moves one step at a time.
+* `fast` moves two steps at a time.
+* When `fast` reaches the end, `slow` will be at the middle.
+
+### Step 2: Reverse the Second Half
+
+Split the linked list into two halves and reverse the second half.
+
+```text
+1 -> 2 -> 3 -> 4 -> 5
+
+First Half  : 1 -> 2 -> 3
+Second Half : 4 -> 5
+
+After Reverse:
+
+5 -> 4
+```
+
+### Step 3: Alternate Merge
+
+Merge both halves alternately.
+
+```text
+1 -> 2 -> 3
+5 -> 4
+
+Result:
+
+1 -> 5 -> 2 -> 4 -> 3
+```
+
+---
+
+## Code
+
+```java
+public class Practice {
+
+    static class Node {
+
+        int data;
+        Node next;
+
+        public Node(int data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    public static Node findMid(Node head) {
+        Node slow = head;
+        Node fast = head.next;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    public static void zigZag(Node head) {
+
+        // Find Middle
+        Node midNode = findMid(head);
+
+        // Split Linked List
+        Node rightNode = midNode.next;
+        midNode.next = null;
+
+        // Reverse Second Half
+        Node prev = null;
+        Node curr = rightNode;
+        Node next = null;
+
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+
+        // Alternate Merge
+        Node left = head;
+        Node right = prev;
+
+        while (left != null && right != null) {
+
+            Node nextLeft = left.next;
+            Node nextRight = right.next;
+
+            left.next = right;
+
+            if (nextLeft == null) {
+                break;
+            }
+
+            right.next = nextLeft;
+
+            left = nextLeft;
+            right = nextRight;
+        }
+    }
+
+    public static void printList(Node head) {
+        Node temp = head;
+
+        while (temp != null) {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        }
+
+        System.out.println("null");
+    }
+
+    public static void main(String args[]) {
+
+        Node head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        head.next.next.next.next = new Node(5);
+
+        System.out.println("Original List:");
+        printList(head);
+
+        zigZag(head);
+
+        System.out.println("Zig Zag List:");
+        printList(head);
+    }
+}
+```
+
+---
+
+## Key Points
+
+* Find the middle using slow and fast pointers.
+* Reverse the second half of the linked list.
+* Merge both halves alternately.
+* No extra linked list is created.
+* In-place modification of the linked list.
+
+---
+
+
+
+Only a few pointers are used, so no extra space is required.
