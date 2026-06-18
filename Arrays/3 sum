@@ -1,0 +1,96 @@
+# 3Sum (LeetCode 15)
+
+## Problem
+
+Given an integer array `nums`, return all unique triplets:
+
+```java
+nums[i] + nums[j] + nums[k] == 0
+```
+
+where `i`, `j`, and `k` are distinct indices.
+
+The solution set must not contain duplicate triplets.
+
+---
+
+## Approach
+
+* Sort the array.
+* Fix one element `nums[i]`.
+* Use two pointers:
+
+  * `j = i + 1`
+  * `k = n - 1`
+* Calculate the sum of `nums[i] + nums[j] + nums[k]`.
+
+  * If sum > 0, move `k` left.
+  * If sum < 0, move `j` right.
+  * If sum == 0, add the triplet and skip duplicates.
+* Skip duplicate values for `i`, `j`, and `k` to avoid repeated triplets.
+
+---
+
+## Code
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        List<List<Integer>> mainList = new LinkedList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length - 2; i++) {
+
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int j = i + 1;
+            int k = nums.length - 1;
+
+            while (j < k) {
+
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (sum > 0) {
+                    k--;
+                } 
+                else if (sum < 0) {
+                    j++;
+                } 
+                else {
+                    List<Integer> li = new LinkedList<>();
+                    li.add(nums[i]);
+                    li.add(nums[j]);
+                    li.add(nums[k]);
+                    mainList.add(li);
+
+                    j++;
+                    k--;
+
+                    while (j < k && nums[j] == nums[j - 1]) {
+                        j++;
+                    }
+
+                    while (j < k && nums[k] == nums[k + 1]) {
+                        k--;
+                    }
+                }
+            }
+        }
+        return mainList;
+    }
+}
+```
+
+---
+
+## Complexity
+
+**Time Complexity:** `O(n²)`
+
+**Space Complexity:** `O(1)` *(excluding output list)*
+
+---
+
