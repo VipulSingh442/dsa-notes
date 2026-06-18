@@ -1,0 +1,67 @@
+# Two Sum II - Input Array Is Sorted (LeetCode 167)
+
+## Problem
+
+Given a **sorted** array `numbers` (1-indexed) and a target value, return the indices of the two numbers such that:
+
+```java
+numbers[index1] + numbers[index2] == target
+```
+
+Return the indices in **1-based indexing**.
+
+---
+
+## Approach
+
+* Since the array is sorted, use the **Two Pointer** technique.
+* Initialize:
+
+  * `i = 0` (left pointer)
+  * `j = n - 1` (right pointer)
+* Calculate the sum:
+
+  * If sum equals target, return the indices.
+  * If sum is greater than target, move `j` left.
+  * If sum is smaller than target, move `i` right.
+* Continue until the pair is found.
+
+---
+
+## Code
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int i = 0;
+        int j = nums.length - 1;
+
+        while(i < j) {
+            int sum = nums[i] + nums[j];
+
+            if(sum == target) {
+                return new int[]{i + 1, j + 1};
+            }
+            else if(sum > target) {
+                j--;
+            }
+            else {
+                i++;
+            }
+        }
+
+        return new int[]{};
+    }
+}
+```
+
+---
+
+## Complexity
+
+**Time Complexity:** `O(n)`
+
+**Space Complexity:** `O(1)`
+
+---
+
