@@ -1,0 +1,57 @@
+# Two Sum (LeetCode 1)
+
+## Problem
+
+Given an integer array `nums` and an integer `target`, return the indices of the two numbers such that:
+
+```java
+nums[i] + nums[j] == target
+```
+
+You may assume that each input has exactly one solution, and you may not use the same element twice.
+
+---
+
+## Approach
+
+* Use a **HashMap** to store previously seen numbers and their indices.
+* For each element, calculate its complement:
+
+```java
+complement = target - nums[i]
+```
+
+* If the complement exists in the HashMap, return the stored index and current index.
+* Otherwise, store the current number and its index in the HashMap.
+
+---
+
+## Code
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+
+        for(int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+
+            if(hm.containsKey(complement)) {
+                return new int[]{hm.get(complement), i};
+            }
+
+            hm.put(nums[i], i);
+        }
+
+        return new int[]{};
+    }
+}
+```
+
+---
+
+## Complexity
+
+**Time Complexity:** `O(n)`
+
+**Space Complexity:** `O(n)`
