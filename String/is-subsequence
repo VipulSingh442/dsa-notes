@@ -1,0 +1,129 @@
+# Is Subsequence (Two Pointers) - SCN Notes
+
+## Concept
+
+A string `s` is a subsequence of `t` if all characters of `s` appear in `t` in the same order, not necessarily consecutively.
+
+Use two pointers:
+
+* `i` → traverses `s`
+* `j` → traverses `t`
+
+Whenever characters match, move both pointers. Otherwise, move only `j`.
+
+---
+
+## Approach
+
+### 1. Handle Empty String
+
+An empty string is always a subsequence.
+
+```java
+if(s.length() == 0)
+{
+    return true;
+}
+```
+
+---
+
+### 2. Traverse Both Strings
+
+If characters match:
+
+```java
+if(s.charAt(i) == t.charAt(j))
+{
+    i++;
+    j++;
+}
+```
+
+Otherwise:
+
+```java
+j++;
+```
+
+Continue until either string is exhausted.
+
+---
+
+### 3. Check Result
+
+If all characters of `s` are matched:
+
+```java
+i == s.length()
+```
+
+Then `s` is a subsequence of `t`.
+
+---
+
+## Code
+
+```java
+class Solution {
+    public boolean isSubsequence(String s, String t) {
+        if(s.length() == 0)
+        {
+            return true;
+        }
+
+        int i = 0;
+        int j = 0;
+
+        while(i < s.length() && j < t.length())
+        {
+            if(s.charAt(i) == t.charAt(j))
+            {
+                i++;
+                j++;
+            }
+            else
+            {
+                j++;
+            }
+        }
+
+        if(i < s.length())
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}
+```
+
+---
+
+## Key Points
+
+* Maintain the order of characters.
+* Characters do not need to be contiguous.
+* Move pointer `i` only when a match is found.
+* Move pointer `j` in every iteration.
+* If all characters of `s` are matched, return `true`.
+
+---
+
+## Complexity
+
+```java
+Time  : O(n)
+Space : O(1)
+```
+
+where:
+
+```java
+n = t.length()
+```
+
+---
+
