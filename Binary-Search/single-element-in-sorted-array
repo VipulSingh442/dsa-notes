@@ -1,0 +1,131 @@
+# Single Non-Duplicate in Sorted Array (Binary Search) - SCN Notes
+
+## Concept
+
+In a sorted array where every element appears twice except one:
+
+* Before the single element, pairs start at **even indices**.
+* After the single element, pair positions shift and start at **odd indices**.
+* Use Binary Search to find where this pattern breaks.
+
+Example:
+
+```java
+[1,1,2,2,3,4,4,5,5]
+          ^
+       Single Element
+```
+
+---
+
+## Approach
+
+### 1. Handle Edge Cases
+
+```java
+if(n == 1) return nums[0];
+
+if(nums[0] != nums[1]) return nums[0];
+
+if(nums[n-1] != nums[n-2]) return nums[n-1];
+```
+
+### 2. Binary Search
+
+Find the unique element:
+
+```java
+if(nums[mid] != nums[mid-1] &&
+   nums[mid] != nums[mid+1])
+{
+    return nums[mid];
+}
+```
+
+### 3. Decide Search Direction
+
+#### When `mid` is Even
+
+* `nums[mid] == nums[mid-1]` → Single element lies on **left**
+* Otherwise → Single element lies on **right**
+
+#### When `mid` is Odd
+
+* `nums[mid] == nums[mid-1]` → Single element lies on **right**
+* Otherwise → Single element lies on **left**
+
+---
+
+## Code
+
+```java
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+        int n = nums.length;
+
+        if(n == 1) {
+            return nums[0];
+        }
+
+        if(nums[1] != nums[0]) {
+            return nums[0];
+        }
+
+        if(nums[n-1] != nums[n-2]) {
+            return nums[n-1];
+        }
+
+        int si = 1;
+        int ei = n - 2;
+
+        while(si <= ei) {
+            int mid = si + (ei - si) / 2;
+
+            if(nums[mid] != nums[mid-1] &&
+               nums[mid] != nums[mid+1]) {
+                return nums[mid];
+            }
+
+            if(mid % 2 == 0) {
+                if(nums[mid] == nums[mid-1]) {
+                    ei = mid - 1;
+                } else {
+                    si = mid + 1;
+                }
+            } else {
+                if(nums[mid] == nums[mid-1]) {
+                    si = mid + 1;
+                } else {
+                    ei = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+}
+```
+
+---
+
+## Key Points
+
+* Array must be **sorted**.
+* Check first and last elements separately.
+* Use pair-position pattern (even/odd indices).
+* Search space reduces by half every iteration.
+
+---
+
+## Complexity
+
+```java
+Time  : O(log n)
+Space : O(1)
+```
+
+---
+
+
+* The unique element causes pair alignment to shift.
+* Even/Odd index analysis is the core idea behind the solution.
