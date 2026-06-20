@@ -1,0 +1,133 @@
+# Sliding Window Maximum (Deque) - SCN Notes
+
+## Concept
+
+For every window of size `k`, find the maximum element.
+
+A **Deque** stores indices of elements in **decreasing order of values**:
+
+* Front of deque stores the index of the maximum element.
+* Remove indices that go out of the current window.
+* Remove smaller elements from the back before inserting a new element.
+
+---
+
+## Approach
+
+### 1. Process First Window
+
+Build a decreasing deque.
+
+```java
+while(!dq.isEmpty() && nums[dq.peekLast()] <= nums[i])
+{
+    dq.removeLast();
+}
+dq.addLast(i);
+```
+
+Store the maximum of the first window:
+
+```java
+res[0] = nums[dq.peekFirst()];
+```
+
+---
+
+### 2. Process Remaining Windows
+
+### Remove Outdated Indices
+
+Indices outside the current window cannot contribute to the answer.
+
+```java
+while(!dq.isEmpty() && dq.peekFirst() <= i-k)
+{
+    dq.removeFirst();
+}
+```
+
+### Remove Smaller Elements
+
+Smaller elements behind the current element can never become maximum.
+
+```java
+while(!dq.isEmpty() && nums[dq.peekLast()] <= nums[i])
+{
+    dq.removeLast();
+}
+```
+
+### Add Current Index
+
+```java
+dq.addLast(i);
+```
+
+### Store Window Maximum
+
+```java
+res[i-k+1] = nums[dq.peekFirst()];
+```
+
+---
+
+## Code
+
+```java
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Deque<Integer> dq = new ArrayDeque<>();
+        int res[] = new int[nums.length - k + 1];
+
+        for (int i = 0; i < k; i++) {
+            while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) {
+                dq.removeLast();
+            }
+            dq.addLast(i);
+        }
+
+        res[0] = nums[dq.peekFirst()];
+
+        for (int i = k; i < nums.length; i++) {
+
+            while (!dq.isEmpty() && dq.peekFirst() <= i - k) {
+                dq.removeFirst();
+            }
+
+            while (!dq.isEmpty() && nums[dq.peekLast()] <= nums[i]) {
+                dq.removeLast();
+            }
+
+            dq.addLast(i);
+
+            res[i - k + 1] = nums[dq.peekFirst()];
+        }
+
+        return res;
+    }
+}
+```
+
+---
+
+## Key Points
+
+* Deque stores **indices**, not values.
+* Front always contains the index of the maximum element.
+* Remove expired indices from the front.
+* Remove smaller elements from the back.
+* Each element is inserted and removed at most once.
+
+---
+
+## Complexity
+
+```java
+Time  : O(n)
+Space : O(k)
+```
+
+---
+
+
